@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
 const PORT = 3001;
+
+const notesRoute = require('./routes/notes');
+
+app.use('/notes', notesRoute);
 
 // GET Route for homepage
 app.get('/', (req, res) =>
