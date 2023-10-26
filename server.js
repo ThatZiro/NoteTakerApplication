@@ -5,7 +5,10 @@ const PORT = 3001;
 
 const notesRoute = require('./routes/notes');
 
-app.use('/notes', notesRoute);
+
+app.use(express.json());
+app.use('/api/notes', notesRoute);
+app.use(express.static('public'));
 
 // GET Route for homepage
 app.get('/', (req, res) =>
