@@ -35,11 +35,37 @@ router.post('/', (req, res) => {
                 : console.info('Successfully updated Notes!')
           );
         }
-      });
+        res.send();
+    });
 })
 
-router.delete('/', (req, res) => {
-    res.send({data: 'note has been Deleted'});
+router.delete('/:id', (req, res) => {
+  console.log("Delete : " + req.params.id);
+
+  fs.readFile(database, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedNotes = JSON.parse(data);
+
+      console.log(parsedNotes);
+      for (let i = 0; i < parsedNotes.length; i++) {
+        if(parsedNotes[i].id === req.params.id){
+          parsedNotes.splice(i,1);
+        }
+      }
+
+      fs.writeFile(
+        database,
+        JSON.stringify(parsedNotes, null, 4),
+        (writeErr) =>
+          writeErr
+            ? console.error(writeErr)
+            : console.info('Successfully updated Notes!')
+      );
+    }
+    res.send();
+  });
 })
 
 module.exports = router;
